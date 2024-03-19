@@ -38,12 +38,9 @@ def particion(unaLista,primero,ultimo):
        if marcaDer < marcaIzq:
            hecho = True
        else:
-           temp = unaLista[marcaIzq]
-           unaLista[marcaIzq] = unaLista[marcaDer]
-           unaLista[marcaDer] = temp
-   temp = unaLista[primero]
-   unaLista[primero] = unaLista[marcaDer]
-   unaLista[marcaDer] = temp
+           unaLista[marcaDer],unaLista[marcaIzq]=unaLista[marcaIzq], unaLista[marcaDer]
+  
+   unaLista[primero], unaLista[marcaDer] = unaLista[marcaDer], valorPivote
 
 
    return marcaDer
