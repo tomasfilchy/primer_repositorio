@@ -15,9 +15,10 @@ class mazo():
     def mostrar_mazo(self):
         print(self.cartas)
     
-    def repartir_cartas(self,mazo):
-        carta = self.cartas.pop(0)
-        mazo.agregar_carta(carta)
+    def repartir_carta(self,mazo1,mazo2):
+        while len(self.cartas) > 0:
+            mazo1.agregar_carta(self.cartas.pop(0))
+            mazo2.agregar_carta(self.cartas.pop(0))
 class carta():
     def __init__(self,numero) :
         self.numero = numero 
@@ -33,9 +34,8 @@ for palo in range (4):
 mazo1 = mazo()
 mazo2 = mazo()
 mazo_de_cartas.mezclar_cartas()
-for c in mazo_de_cartas.cartas:
-    mazo_de_cartas.repartir_cartas(mazo1)
-    mazo_de_cartas.repartir_cartas(mazo2)
-    
+mazo_de_cartas.repartir_carta(mazo1,mazo2)
 mazo1.mostrar_mazo()
 mazo2.mostrar_mazo()
+
+print(len(mazo1.cartas), len(mazo2.cartas))
