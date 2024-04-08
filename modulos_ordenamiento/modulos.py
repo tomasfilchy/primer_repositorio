@@ -67,14 +67,14 @@ def radixSort(lista):
             grupos[int(lista[i][j])].append(lista[i])
             
             
-        lista = []
+        lista = [] 
         for g in grupos:
             lista+=g
         
     return [int(i) for i in lista]
         
         
-listaNumeros = [randint(1,99999) for x in range(12)]
+listaNumeros = [randint(1,99999) for x in range(500)]
 listaCadenas = []
 for n in listaNumeros:
     listaCadenas.append(str(n))
