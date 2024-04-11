@@ -23,7 +23,7 @@ nodo3.asignar_anterior(nodo1)
 nodo2.asignar_anterior(nodo3)
 
 
-nodo_aux = nodo1
+#nodo_aux = nodo1
 
 #while nodo_aux != None :
 #    
