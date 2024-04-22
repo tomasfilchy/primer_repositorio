@@ -8,18 +8,20 @@ class Mazo():
         self.tamanio = 0
         
     def poner_carta_arriba(self, carta):
+        
         if self.cabeza == None:
-            self.cabeza = Carta(carta.dato, carta.palo)
-            self.cola = self.cabeza
+            self.cabeza = carta
+            self.cola = carta
+            
         else:
             
             self.cabeza.asignar_arriba(carta)
-            carta.asignar_abajo(carta)
+            carta.asignar_abajo(self.cabeza)
             self.cabeza = carta
     def poner_carta_abajo(self,carta):
             if self.cola == None:
-                self.cabeza = Carta(carta.dato, carta.palo)
-                self.cola = self.cabeza    
+                self.cabeza = carta
+                self.cola = carta  
             else:
                 self.cola.asignar_abajo(carta)
                 carta.asignar_arriba(self.cola)
@@ -30,9 +32,9 @@ class Mazo():
         self.arriba = self.arriba.carta_abajo
         self.arriba = None
         return carta_a_sacar
-carta = Carta(4, 'treboles')
-carta2 = Carta(5, 'treboles')
-carta3 = Carta(10, 'treboles')
+carta = Carta('4', 'treboles')
+carta2 = Carta('5', 'treboles')
+carta3 = Carta('10', 'treboles')
 carta4 = Carta('1', 'treboles')
 mazo = Mazo()
     

@@ -205,6 +205,26 @@ if __name__ == "__main__":
     LDE.agregar_al_final(3000)
     
     lista = LDE.copiar()
-    lista = LDE + lista
-   
     
+    counter = 0
+    elementos = []
+    nodo = lista.cabeza
+    while nodo is not None:
+            counter += 1
+            elementos.append(nodo.dato)
+            nodo = nodo.siguiente
+    
+    nodo = lista.cola
+    while nodo is not None:
+            counter -= 1
+            print(elementos[counter], nodo.dato,)
+
+            nodo = nodo.anterior
+    #
+    #nodoLDE = LDE.cabeza
+    #nodoLista = lista.cola
+    #
+    #while nodoLDE is not None and nodoLista is not None:
+    #    print( nodoLDE.mostrarNodo(), nodoLista.mostrarNodo())
+    #    nodoLDE = nodoLDE.siguiente
+    #    nodoLista = nodoLista.anterior
