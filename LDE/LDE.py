@@ -144,7 +144,7 @@ class ListaDobleEnlazada():
             if nodo != None:
                 lista_invertida.agregar_al_inicio(nodo.mostrarNodo())
         self.cabeza = lista_invertida.cabeza
-    
+        self.cola = lista_invertida.cola
     def concatenar(self, lista):
         if lista.cabeza is None:
             pass
@@ -167,7 +167,9 @@ class ListaDobleEnlazada():
     def __len__ (self):
         return self.tamanio
     def __add__ (self, lista):
-         self.concatenar(lista)
+         nueva_lista = self.copiar()
+         nueva_lista.concatenar(lista)
+         return nueva_lista
          
          return self
     def __iter__ (self):
@@ -204,27 +206,12 @@ if __name__ == "__main__":
     LDE.agregar_al_final(2000)
     LDE.agregar_al_final(3000)
     
-    lista = LDE.copiar()
     
-    counter = 0
-    elementos = []
-    nodo = lista.cabeza
-    while nodo is not None:
-            counter += 1
-            elementos.append(nodo.dato)
-            nodo = nodo.siguiente
+    listaConcatenada = LDE + lista  
     
-    nodo = lista.cola
-    while nodo is not None:
-            counter -= 1
-            print(elementos[counter], nodo.dato,)
-
-            nodo = nodo.anterior
-    #
-    #nodoLDE = LDE.cabeza
-    #nodoLista = lista.cola
-    #
-    #while nodoLDE is not None and nodoLista is not None:
-    #    print( nodoLDE.mostrarNodo(), nodoLista.mostrarNodo())
-    #    nodoLDE = nodoLDE.siguiente
-    #    nodoLista = nodoLista.anterior
+    nodoAux = LDE.cabeza
+    nodoAux2 = listaConcatenada.cabeza
+    while nodoAux is not None:
+        print (nodoAux.mostrarNodo(), "++++", nodoAux2.mostrarNodo())
+        nodoAux2 = nodoAux2.siguiente
+        nodoAux = nodoAux.siguiente

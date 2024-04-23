@@ -20,7 +20,7 @@ class TestMazo(unittest.TestCase):
         carta2=Carta('3','corazones')
         self.mazo.poner_carta_arriba(carta1)
         self.mazo.poner_carta_arriba(carta2)
-        self.assertIs(carta2, self.mazo.cabeza.dato)
+        self.assertIs(carta2, self.mazo.cabeza)
         carta_control=self.mazo.sacar_carta_arriba()
         self.assertIs(carta2, carta_control)
 
@@ -29,7 +29,7 @@ class TestMazo(unittest.TestCase):
         carta2=Carta('3','corazones')
         self.mazo.poner_carta_abajo(carta1)
         self.mazo.poner_carta_abajo(carta2)
-        self.assertIs(carta2, self.mazo.cola.dato)
+        self.assertIs(carta2, self.mazo.cola)
         
         
 if __name__ == '__main__':

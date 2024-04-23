@@ -43,10 +43,10 @@ class Carta:
     
     def _valor_numerico(self):
         valores = ['J','Q','K','A']
-        if self.valor in valores:
-            idx = valores.index(self.valor)
+        if self.dato in valores:
+            idx = valores.index(self.dato)
             return (11 + idx)
-        return int(self.valor)            
+        return int(self.dato)            
             
         
     def __gt__(self, otra):
@@ -57,7 +57,7 @@ class Carta:
         if self.visible == False:
             return "-X"
         else:
-            return self.valor + self.palo
+            return self
     
     def __repr__(self):
         return str(self)

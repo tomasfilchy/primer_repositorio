@@ -1,6 +1,11 @@
 from Carta import Carta
 
 
+
+class DequeEmptyError(Exception):
+    """Un jugador se ha quedado sin cartas"""
+    pass
+
 class Mazo():
     def __init__ (self):
         self.cabeza = None
@@ -8,7 +13,7 @@ class Mazo():
         self.tamanio = 0
         
     def poner_carta_arriba(self, carta):
-        
+         
         if self.cabeza == None:
             self.cabeza = carta
             self.cola = carta
@@ -28,10 +33,16 @@ class Mazo():
                 self.cola = carta
     
     def sacar_carta_arriba(self):
-        carta_a_sacar = self.arriba
-        self.arriba = self.arriba.carta_abajo
-        self.arriba = None
+        carta.visible = True
+        carta_a_sacar = self.cabeza
+        self.cabeza = self.cabeza.carta_abajo
+        self.cabeza = None
         return carta_a_sacar
+    
+    def __len__ (self):
+        return self.tamanio
+        
+        
 carta = Carta('4', 'treboles')
 carta2 = Carta('5', 'treboles')
 carta3 = Carta('10', 'treboles')
