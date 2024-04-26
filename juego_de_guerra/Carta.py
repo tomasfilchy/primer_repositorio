@@ -54,9 +54,9 @@ class Carta:
         return self._valor_numerico() > otra._valor_numerico()
         
     def __str__(self):
-        if self.visible == False:
-            return "-X"
-        else:
+        #if self.visible == False:
+         #   return "-X"
+        #else:
             return self
     
     def __repr__(self):

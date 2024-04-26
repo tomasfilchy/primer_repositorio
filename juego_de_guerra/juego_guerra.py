@@ -99,15 +99,17 @@ class JuegoGuerra:
         self._cartas_en_la_mesa = []
         self._turno = 0
         
-        while len(self.mazo_1) and len(self.mazo_2) and self._turno != N_TURNOS:            
+        while len(self.mazo_1) > 0 and len(self.mazo_2) > 0 and self._turno != N_TURNOS:            
             try:
                 if self._guerra:
                     for _ in range(3):
-                        self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba())
-                        self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba())
-                
-                self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba(mostrar=True))
-                self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba(mostrar=True))
+                        
+                            self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba())
+                            self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba())
+                        
+            
+                self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba())
+                self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba())
             
             except DequeEmptyError:
                 #un mazo se quedó sin cartas durante el turno
@@ -135,6 +137,8 @@ class JuegoGuerra:
                         #el juego debe terminar sin incrementar
                         #el número de turnos
                         self._turno += 1
+
+                        
                 elif  self._cartas_en_la_mesa[-1] > self._cartas_en_la_mesa[-2]:
                     for carta in self._cartas_en_la_mesa:
                         self.mazo_2.poner_carta_abajo(carta)
@@ -145,6 +149,8 @@ class JuegoGuerra:
                         #el juego debe terminar sin incrementar
                         #el número de turnos
                         self._turno += 1
+                    
+                        
                 else:
                     self._guerra = True
                     if ver_partida:
@@ -171,14 +177,14 @@ class JuegoGuerra:
         # cartas en la mesa
         print(f"Turno: {self._turno+1}")
         print('jugador 1:')        
-        print(self.mazo_1)
+        print(self._cartas_en_la_mesa[-2].dato)
         print()
         print('              ', end='')
         for carta in self._cartas_en_la_mesa:
-            print(carta, end=' ')
+            print(carta.dato, end=' ')
         print('\n')
         print('jugador 2:')
-        print(self.mazo_2)            
+        print(self._cartas_en_la_mesa[-1].dato)            
         print()
         print('------------------------------------')
         if self._ganador:

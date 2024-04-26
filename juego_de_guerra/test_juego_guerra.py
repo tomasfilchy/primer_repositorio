@@ -74,8 +74,8 @@ class TestJuegoGuerra(unittest.TestCase):
         self.juego_7 = JuegoGuerra(random_seed=547)
         self.juego_8 = JuegoGuerra(random_seed=296)
 
-        self.juego_7.iniciar_juego(ver_partida=True)
-        self.juego_8.iniciar_juego(ver_partida=True)
+        self.juego_7.iniciar_juego(ver_partida=False)
+        self.juego_8.iniciar_juego(ver_partida=False)
         
         self.assertTrue(self.juego_7.empate)
         self.assertTrue(self.juego_8.empate)
