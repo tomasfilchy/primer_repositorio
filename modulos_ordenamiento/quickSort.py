@@ -38,7 +38,3 @@ def particion(unaLista,primero,ultimo):
 
 
    return marcaDer
-from random import randint
-unaLista = [randint(10000,99999) for x in range(500)]
-ordenamientoRapido(unaLista)
-print(unaLista)
