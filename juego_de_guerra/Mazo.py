@@ -37,14 +37,15 @@ class Mazo():
                 self.tamanio +=1 
     
     def sacar_carta_arriba(self):
-        if self.cabeza == None:
-            pass
-        else:
+        if self.tamanio > 0:
             carta.visible = True
             carta_a_sacar = self.cabeza
             self.cabeza = self.cabeza.carta_abajo
             self.tamanio -= 1
             return carta_a_sacar
+        else: 
+            DequeEmptyError
+        
         
     def __len__ (self):
         if self.tamanio <= 0:
