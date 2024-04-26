@@ -103,14 +103,14 @@ class JuegoGuerra:
             try:
                 if self._guerra:
                     for _ in range(3):
+                        self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba())
+                        self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba())
                         
-                            self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba())
-                            self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba())
                         
             
                 self._cartas_en_la_mesa.append(self.mazo_1.sacar_carta_arriba())
                 self._cartas_en_la_mesa.append(self.mazo_2.sacar_carta_arriba())
-            
+                
             except DequeEmptyError:
                 #un mazo se quedó sin cartas durante el turno
                 #declaro ganador al jugador que tiene cartas
@@ -132,7 +132,7 @@ class JuegoGuerra:
                         self.mazo_1.poner_carta_abajo(carta)
                     self._cartas_en_la_mesa = []
                     self._guerra = False
-                    if len(self.mazo_2):
+                    if len(self.mazo_2)> 0:
                         #si el mazo del oponente se queda sin cartas
                         #el juego debe terminar sin incrementar
                         #el número de turnos
@@ -144,7 +144,7 @@ class JuegoGuerra:
                         self.mazo_2.poner_carta_abajo(carta)
                     self._cartas_en_la_mesa = []
                     self._guerra = False
-                    if len(self.mazo_1):                        
+                    if len(self.mazo_1)> 0:                        
                         #si el mazo del oponente se queda sin cartas
                         #el juego debe terminar sin incrementar
                         #el número de turnos

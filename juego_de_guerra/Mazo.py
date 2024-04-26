@@ -33,23 +33,20 @@ class Mazo():
                 self.cola.asignar_abajo(carta)
                 carta.asignar_arriba(self.cola)
                 self.cola = carta
-                self.cola.asignar_abajo(None)
                 self.tamanio +=1 
     
     def sacar_carta_arriba(self):
-        if self.tamanio > 0:
-            carta.visible = True
+        if self.tamanio > 0 and self.cabeza is not None:
             carta_a_sacar = self.cabeza
+            carta_a_sacar.visible = True
             self.cabeza = self.cabeza.carta_abajo
             self.tamanio -= 1
             return carta_a_sacar
-        else: 
-            DequeEmptyError
+        else:   
+            raise DequeEmptyError
         
         
     def __len__ (self):
-        if self.tamanio <= 0:
-            self.tamanio = 0
         
         return self.tamanio
 
