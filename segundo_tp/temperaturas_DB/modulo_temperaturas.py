@@ -18,7 +18,7 @@ class Temperaturas_DB:
                 self._agregar(fecha, temperatura, nodo_actual.hijoIzquierdo)
                 
             else:
-                nodo_actual.hijo_izquierdo = Temperatura(fecha, temperatura, padre=nodo_actual)
+                nodo_actual.hijoIzquierdo = Temperatura(fecha, temperatura, padre=nodo_actual)
                 self.actualizarEquilibrio(nodo_actual.hijoIzquierdo)
         else:
             if nodo_actual.hijoDerecho:
@@ -44,17 +44,19 @@ class Temperaturas_DB:
 
     def reequilibrar(self,nodo):
         if nodo.factorEquilibrio < 0:
-            if nodo.hijoDerecho.factorEquilibrio > 0:
-                self.rotarDerecha(nodo.hijoDerecho)
-                self.rotarIzquierda(nodo)
+            if nodo.hijoDerecho:
+                if nodo.hijoDerecho.factorEquilibrio > 0:
+                    self.rotarDerecha(nodo.hijoDerecho)
+                    self.rotarIzquierda(nodo)
             else:
                 self.rotarIzquierda(nodo)
         elif nodo.factorEquilibrio > 0:
-             if nodo.hijoIzquierdo.factorEquilibrio < 0:
-                self.rotarIzquierda(nodo.hijoIzquierdo)
-                self.rotarDerecha(nodo)
-             else:
-                self.rotarDerecha(nodo)
+            if nodo.hijoIzquierdo:
+                if nodo.hijoIzquierdo.factorEquilibrio < 0:
+                    self.rotarIzquierda(nodo.hijoIzquierdo)
+                    self.rotarDerecha(nodo)
+            else:
+                    self.rotarDerecha(nodo)
     def rotarIzquierda(self,rotRaiz):
         nuevaRaiz = rotRaiz.hijoDerecho
         rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo
@@ -73,7 +75,23 @@ class Temperaturas_DB:
         rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0)
         nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0)
 
-    
+    def rotarDerecha(self,rotRaiz):
+        nuevaRaiz = rotRaiz.hijoIzquierdo
+        rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho
+        if nuevaRaiz.hijoDerecho != None:
+            nuevaRaiz.hijoDerecho.padre = rotRaiz
+        nuevaRaiz.padre = rotRaiz.padre
+        if rotRaiz.esRaiz():
+            self.raiz = nuevaRaiz
+        else:
+            if rotRaiz.esHijoDerecho():
+                    rotRaiz.padre.hijoDerecho = nuevaRaiz
+            else:
+                rotRaiz.padre.hijoIzquierdo = nuevaRaiz
+        nuevaRaiz.hijoDerecho = rotRaiz
+        rotRaiz.padre = nuevaRaiz
+        rotRaiz.factorEquilibrio = rotRaiz.factorEquilibrio + 1 - min(nuevaRaiz.factorEquilibrio, 0)
+        nuevaRaiz.factorEquilibrio = nuevaRaiz.factorEquilibrio + 1 + max(rotRaiz.factorEquilibrio, 0)
     
     
     
@@ -108,19 +126,40 @@ class Temperaturas_DB:
 
 
     def max_temp_rango(self, fecha1, fecha2):
-        fecha_obj1 = datetime.strptime(fecha1, "%d/%m/%Y")
-        fecha_obj2 = datetime.strptime(fecha2, "%d/%m/%Y")
-        max_temp = 100
-        nodo_actual = self.raiz
-        while nodo_actual:
-            if nodo_actual.temperatura > max_temp:
-                max_temp = nodo_actual.temperatura
-            if fecha_obj1 < datetime.strptime(nodo_actual.fecha, "%d/%m/%Y") <= fecha_obj2:
-                nodo_actual = nodo_actual.hijoDerecho
-                
-            else: 
-                nodo_actual= nodo_actual.hijoIzquierdo
+        if self.raiz:
+            return self._max_temp_rango(fecha1, fecha2, self.raiz)
+        else:
+            return None
 
+    def _max_temp_rango(self, fecha1, fecha2, nodo):
+        if not nodo:
+            return None
+        if datetime.strptime(fecha1, "%d/%m/%Y") <= datetime.strptime(nodo.fecha, "%d/%m/%Y") <= datetime.strptime(fecha2, "%d/%m/%Y"):
+            max_temp = max(nodo.temperatura, self._max_temp_rango(fecha1, fecha2, nodo.hijoIzquierdo), self._max_temp_rango(fecha1, fecha2, nodo.hijoDerecho))
+            return max_temp
+        elif fecha1 < nodo.fecha:
+            return self._max_temp_rango(fecha1, fecha2, nodo.hijoIzquierdo)
+        else:
+            return self._max_temp_rango(fecha1, fecha2, nodo.hijoDerecho)
+    
+    def min_temp_rango(self, fecha1, fecha2):
+        if self.raiz:
+            return self._min_temp_rango(fecha1, fecha2, self.raiz)
+        else:
+            return None
+
+    def _min_temp_rango(self, fecha1, fecha2, nodo):
+        if not nodo:
+            return None
+        if fecha1 <= nodo.fecha <= fecha2:
+            min_temp = min(nodo.temperatura, self._min_temp_rango(fecha1, fecha2, nodo.hijoIzquierdo), self._min_temp_rango(fecha1, fecha2, nodo.hijoDerecho))
+            return min_temp
+        elif fecha1 < nodo.fecha:
+            return self._min_temp_rango(fecha1, fecha2, nodo.hijoIzquierdo)
+        else:
+            return self._min_temp_rango(fecha1, fecha2, nodo.hijoDerecho)
+            
+            
 
 class Temperatura():
     def __init__(self, fecha, temperatura, padre=None):
@@ -161,10 +200,14 @@ class Temperatura():
     
             
 temp = Temperaturas_DB()
-temp.guardar_temperatura("01/10/2000", 30)
-temp.guardar_temperatura("02/10/2000", 32)
-temp.guardar_temperatura("03/10/2000", 33)
-temp.guardar_temperatura("04/10/2000", 34)
-temp.guardar_temperatura("05/10/2000", 35)
 
-print(temp.max_temp_rango("01/10/2000","05/10/2000"))
+
+temp.guardar_temperatura("20/01/2000", 10)
+temp.guardar_temperatura("19/01/2000", 15)
+temp.guardar_temperatura("18/01/2000", 20)
+temp.guardar_temperatura("17/01/2000", 25)
+temp.guardar_temperatura("21/01/2000", 22)
+temp.guardar_temperatura("22/01/2000", 23)
+temp.guardar_temperatura("23/01/2000", 24)
+
+print(temp.raiz.hijoDerecho.hijoDerecho.hijoDerecho.temperatura)
