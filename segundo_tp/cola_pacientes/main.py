@@ -5,7 +5,7 @@ Sala de emergencias
 
 import time
 import datetime
-import arboles.cola_pacientes.modulo_pacientes as pac
+import modulo_pacientes as pac
 import random
 
 n = 20  # cantidad de ciclos de simulación

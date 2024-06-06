@@ -54,7 +54,6 @@ Aceituna, Malcocinado, 2
 Pancrudo, Silla, 6
 Pancrudo, Cebolla, 2
 Pancrudo, La Aparecida, 8
-Diosleguarde
 Diosleguarde, Elciego, 7
 Diosleguarde, Malcocinado, 9
 Diosleguarde, Melón, 11
