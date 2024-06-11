@@ -282,3 +282,4 @@ class Temperaturas_DB:
     
     
 
+

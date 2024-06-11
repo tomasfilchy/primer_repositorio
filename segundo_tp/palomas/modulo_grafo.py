@@ -47,6 +47,7 @@ class Grafos:
         if a not in self.listaVertices:
             self.agregarVertice(a)
         self.listaVertices[de].agregarVecino(self.listaVertices[a], int(costo))
+        self.listaVertices[a].agregarVecino(self.listaVertices[de], int(costo))
 
     def obtenerVertices(self):
         return self.listaVertices.keys()
@@ -54,47 +55,45 @@ class Grafos:
     def __iter__(self):
         return iter(self.listaVertices.values())
 
-
-def dijkstra(grafo, inicio):
+    def mostrarEnOrden(self):
+        listaOrdenada = []
+        for vertice in self.listaVertices:
+            listaOrdenada.append(vertice)
+        listaOrdenada.sort()
+        return listaOrdenada
+        
+def prim(grafo, inicio):
     inicio = inicio.strip()  # Eliminar espacios adicionales
-    distancia = {vertice: float('inf') for vertice in grafo.listaVertices}
-    distancia[inicio] = 0
-    previo = {vertice: None for vertice in grafo.listaVertices}
-    cola_prioridad = [(0, inicio)]
-    procesados = set()  # Conjunto para rastrear vértices procesados
+    visitados = set()
+    aem = []
+    min_heap = [(0, inicio, None)]  # (peso, nodo, nodo_origen)
 
-    while cola_prioridad:
-        cola_prioridad.sort(reverse=True)  # Ordenar para simular un min-heap
-        dist_actual, vertice_actual = cola_prioridad.pop()
+    while min_heap:
+        min_heap.sort(reverse=True)  # Ordenar para simular un min-heap
+        peso, vertice_actual, desde = min_heap.pop()
 
-        if vertice_actual in procesados:
-            continue  # Saltar vértices ya procesados
+        if vertice_actual in visitados:
+            continue
 
-        procesados.add(vertice_actual)
+        visitados.add(vertice_actual)
+        if desde is not None:
+            aem.append((desde, vertice_actual, peso))
 
         for vecino in grafo.listaVertices[vertice_actual].obtenerConexiones():
             vecino_id = vecino.obtenerId()
-            peso = grafo.listaVertices[vertice_actual].obtenerPonderacion(vecino)
-            dist_nueva = dist_actual + peso
+            if vecino_id not in visitados:
+                peso = grafo.listaVertices[vertice_actual].obtenerPonderacion(vecino)
+                min_heap.append((peso, vecino_id, vertice_actual))
 
-            if dist_nueva < distancia[vecino_id]:
-                distancia[vecino_id] = dist_nueva
-                previo[vecino_id] = vertice_actual
-                cola_prioridad.append((dist_nueva, vecino_id))
-
-    return distancia, previo
+    return aem
 
 
-def mostrar_rutas(distancia, previo):
-    for vertice in sorted(distancia.keys()):
-        if vertice != 'Peligros':
-            ruta = []
-            actual = vertice
-            while actual:
-                ruta.append(actual)
-                actual = previo[actual]
-            ruta.reverse()
-            print(f"Aldea: {vertice}, Distancia: {distancia[vertice]}, Ruta: {' -> '.join(ruta)}")
+def mostrar_aem(aem):
+    suma = 0 
+    for edge in aem:
+        suma += edge[2]
+        print(f"Desde {edge[0]} hasta {edge[1]} con peso {edge[2]}")
+    print(suma)
 
 
 def main():
@@ -105,22 +104,15 @@ def main():
         for i in aldeas_txt:
             grafo.agregarArista(i[0], i[1], i[2])
 
-    # Paso 1: Mostrar la lista de aldeas en orden alfabético
-    aldeas_ordenadas = sorted(grafo.obtenerVertices())
-    print("Lista de aldeas en orden alfabético:")
-    for aldea in aldeas_ordenadas:
-        print(aldea)
-
-    # Paso 2: Encontrar la ruta más corta desde "Peligros"
-    distancia, previo = dijkstra(grafo, 'Peligros')
-
-    # Paso 3: Mostrar rutas y calcular la suma de todas las distancias
-    print("\nRutas más cortas desde 'Peligros':")
-    mostrar_rutas(distancia, previo)
-
-    suma_distancias = sum(distancia.values())
-    print(f"\nSuma total de todas las distancias: {suma_distancias}")
-
-
+    lista = grafo.mostrarEnOrden()
+    for linea in lista: print(linea)
+    
+    aem = prim(grafo, 'Peligros')
+    mostrar_aem(aem)
+    suma = 0
+    for peso in aem:
+        suma += peso[2]
+   
+        
 if __name__ == "__main__":
     main()
