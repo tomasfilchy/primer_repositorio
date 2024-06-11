@@ -4,21 +4,9 @@ Created on Sun Aug 21 11:23:53 2022
 
 @author: Cátedra de Algoritmos y Estructura de Datos
 """
-# En el archivo apps/app.py
 
 import sys
-import os
-
-# Obtén la ruta del directorio actual (apps)
-current_dir = os.path.dirname("apps")
-
-# Añade la ruta del directorio superior al sys.path
-parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
-sys.path.append(parent_dir)
-
-# Ahora puedes importar el módulo
-
-
+sys.path.append("/users/Ndea/OneDrive/Escritorio/archivos trabajar py/AyED trabajos")
 
 
 from apps.juego_guerra import JuegoGuerra
